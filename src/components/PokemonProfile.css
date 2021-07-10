@@ -1,0 +1,17 @@
+.pokemon-profile{
+    display:flex;
+    flex-direction: row;
+}
+
+img{
+    width: 500px;
+    height:500px;
+    padding-left: 100px;
+    margin: 0 auto;
+}
+
+#header {
+    font-weight:bolder;
+    font-size: 65px;
+    padding-right: 5%;
+}

@@ -1,34 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Table, Space } from "antd";
 import "antd/dist/antd.css";
+import { GetPokemonList } from "../redux/actions/index";
+import { POKEMON_URL } from "../redux/constants/index";
+import { Link } from "react-router-dom";
 
 const Pokemon = () => {
-  const [pokemon, setPokemon] = useState([
-    {
-      name: "",
-      url: "",
-    },
-  ]);
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.pokemon_list.results);
 
   useEffect(() => {
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=100")
-      .then((response) => response.json())
-      .then((data) => setPokemon(data.results));
+    dispatch(GetPokemonList());
   }, []);
-  console.log(pokemon);
 
   const { Column } = Table;
 
-  let data = [];
   return (
-    <Table dataSource={pokemon}>
+    <Table dataSource={data}>
       <Column title="Name" dataIndex="name" key="name" />
       <Column
         title="Action"
-        key="action"
+        key="url"
         render={(text, record) => (
           <Space size="middle">
-            <a>View</a>
+            <Link to="Pro">
+              <a
+                onClick={() => {
+                  dispatch({
+                    type: POKEMON_URL,
+                    payload: record.url,
+                  });
+                }}
+              >
+                View
+              </a>
+            </Link>
           </Space>
         )}
       />
